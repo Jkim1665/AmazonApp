@@ -16,7 +16,7 @@ CREATE TABLE products (
   -- cost to customer --
   price DECIMAL(10,2) NULL,
   -- how much of the product is available in stores --
-  quantity INTEGER NULL,
+  quantity INTEGER(200) NULL,
    -- Sets id as this table's primary key which means all data contained within it will be unique --
   PRIMARY KEY (id)
 );

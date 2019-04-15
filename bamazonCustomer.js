@@ -1,4 +1,3 @@
-
 var mysql = require("mysql");
 var inquirer = require("inquirer");
 var inStock = 0;
@@ -18,7 +17,7 @@ var connection = mysql.createConnection({
 
 connection.connect(function (err) {
     if (err) throw err;
-    start(); 
+    start();
 });
 function start() {
     connection.query('SELECT * FROM products', function (err, res) {
@@ -28,14 +27,11 @@ function start() {
         console.log('-------------Our current Inventory---------------');
         console.log('');
 
-
         for (var i = 0; i < res.length; i++) {
-            console.log('Item ID: ' + res[i].id + '      Product: ' + res[i].product + '      Department: ' + res[i].department);
-            console.log('Price: ' + res[i].price + '      Quanity Left: ' + res[i].quanity);
+            console.log('Item ID: ' + res[i].id + 'Product: ' + res[i].product + '  Department: ' + res[i].department);
+            console.log('Price: ' + res[i].price + 'Quantity Left: ' + res[i].quantity);
             console.log(' ');
-
         }
-
         manageStore();
     });
 }
@@ -91,19 +87,12 @@ function manageStore() {
             //update the database
             connection.query('SELECT * FROM products WHERE id = ' + id, function (error, response) {
                 if (error) { console.log(error) };
-                connection.query('UPDATE products SET quanity = Quanity + ' + quant + ' WHERE id = ' + id);
+                connection.query('UPDATE products SET quantity = Quantity + ' + quant + ' WHERE id = ' + id);
                 //re-run display to show updated results
                 start();
             });
         };
-        ///////////////////////////////////////////////////////////////////////////  
-        //function  add to inventory/////////
-        /////////////////////////////////////////////////////////////////////////// 
 
-
-        ///////////////////////////////////////////////////////////////////////////  
-        //function  to add a new product
-        /////////////////////////////////////////////////////////////////////////// 
 
         function newProduct() {
             inquirer.prompt([
@@ -124,9 +113,9 @@ function manageStore() {
                     message: "Price?"
                 },
                 {
-                    name: 'quanity',
+                    name: 'quantity',
                     type: 'input',
-                    message: "quanity?"
+                    message: "quantity?"
                 },
 
             ]).then(function (answers) {
@@ -134,24 +123,18 @@ function manageStore() {
                 var name = answers.name;
                 var department = answers.department;
                 var price = answers.price;
-                var quanity = answers.quanity;
+                var quantity = answers.quantity;
 
-                addNewItemtoDB(name, department, price, quanity);
+                addNewItemtoDB(name, department, price, quantity);
             });
         };
 
-        function addNewItemtoDB(name, department, price, quanity) {
+        function addNewItemtoDB(name, department, price, quantity) {
             //     if (error) { console.log(error) };
-            connection.query('INSERT INTO products (product, department, price, quanity) VALUES("' + name + '","' + department + '",' + price + ',' + quanity + ')');
-
-
-            showProducts();
+            connection.query('INSERT INTO products (product, department, price, quantity) VALUES("' + name + '","' + department + '",' + price + ',' + quantity + ')');
+            start();
 
         };
-
-        ///////////////////////////////////////////////////////////////////////////  
-        // end of function  to add a new product
-        /////////////////////////////////////////////////////////////////////////// 
 
         function deleteProduct() {
             inquirer.prompt([{
@@ -166,10 +149,7 @@ function manageStore() {
 
         function deleteFromDB(id) {
             connection.query("DELETE FROM products WHERE id =" + id);
-            showProducts();
+            start();
         }
-
-
-
     });
 } 
