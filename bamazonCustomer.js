@@ -46,9 +46,7 @@ function manageStore() {
                     type: 'list',
                     message: 'Choose an option below to manage inventory:',
                     choices: ["Add inventory", "Add a new product", "Remove a product", "Quit"]
-
                 }
-
             ]).then(function (answers) {
                 if (answers.selectId === "Add inventory") {
                     addInventory()
@@ -64,7 +62,6 @@ function manageStore() {
             });
         function addInventory() {
             inquirer.prompt([
-
                 {
                     name: "ID",
                     type: "input",
@@ -74,7 +71,6 @@ function manageStore() {
                     type: 'input',
                     message: "How many would you like to add?"
                 },
-
             ]).then(function (answers) {
                 //set captured input as variables, pass variables as parameters.
                 var quantityAdded = answers.Quantity;
